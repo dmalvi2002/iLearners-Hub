@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { galleryItems } from "./galleryData";
 
-
 const GalleryPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [currentImageIndex, setCurrentImageIndex] = useState<number | null>(
@@ -214,7 +213,8 @@ const GalleryPage: React.FC = () => {
                     <>
                       {/* Video Thumbnail */}
                       <Image
-                        src={item.thumbnail || "/images/gallery/gp1.jpg"}
+                        src={`https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`}
+                        // fetching thumbnail image
                         alt={item.alt}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
@@ -301,7 +301,7 @@ const GalleryPage: React.FC = () => {
             )}
 
             <div className="relative w-full max-w-4xl max-h-[80vh] h-[70vh]">
-            {filteredItems[currentImageIndex].type === "image" ? (
+              {filteredItems[currentImageIndex].type === "image" ? (
                 <Image
                   src={filteredItems[currentImageIndex].src}
                   alt={filteredItems[currentImageIndex].alt}
