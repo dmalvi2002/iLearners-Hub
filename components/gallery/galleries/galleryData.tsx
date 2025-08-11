@@ -85,13 +85,6 @@ export const galleryItems: GalleryItem[] = [
     type: "image",
   },
   {
-    id: 12,
-    src: "https://res.cloudinary.com/dvvcwzp4n/image/upload/v1753842990/20250705_121209_xy8ns8.jpg",
-    alt: "Events booklet with colorful cover",
-    category: "events",
-    type: "image",
-  },
-  {
     id: 13,
     src: "https://res.cloudinary.com/dvvcwzp4n/image/upload/v1753842990/20250705_130030_mvloc8.jpg",
     alt: "Events booklet with colorful cover",
