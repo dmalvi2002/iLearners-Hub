@@ -175,18 +175,19 @@ guide improvement. Our tutors also help build exam confidence and study discipli
     category: "Exam Revision",
     subjects: ["Maths", "Physics", "Chemistry", "Biology"],
     rate: "£20/hr",
-    sessions: "2 hours",
+    sessions: "1.5 hours",
     duration: "30 hours total",
     fee: "£20.00",
     action: "Enroll Now",
     overview: `This 30-hour intensive revision course, starting from January to April, prepares students for
-the National 5 exams in Maths, Physics, Chemistry, and Biology. It includes 2 full Mock
-Exams, revision materials, and expert guidance.
+the National 5 exams in Maths, Physics, Chemistry, and Biology. It includes 3 full Mock
+Exams, Feedback sessions, Hints & Tips session, revision materials, and expert guidance.
 Each two-hour session focuses on key topics, past paper practice, timed tests, and tips &
 tricks for tackling tricky questions. Mock tests are followed by dedicated review sessions with
 detailed feedback and improvement strategies.`,
     includes: [
-      "2 Mock Exams included",
+      "3 Mock Exams included",
+      "Feedback sessions",
       "Full syllabus revision",
       "Exam strategies + tips",
       "Marked mocks with tutor feedback",
@@ -235,17 +236,17 @@ students with time management and exam preparation strategies.`,
     category: "Exam Revision",
     subjects: ["Maths", "Physics", "Chemistry", "Biology"],
     rate: "£25/hr",
-    sessions: "2 hours",
+    sessions: "1.5 hours",
     duration: "30 hours total",
     fee: "£25.00",
     action: "Enroll Now",
     overview: `This 30-hour course is a focused exam prep programme for Highers in Maths, Physics,
-Chemistry, and Biology. It includes 2 full Mock Exams, timed practice, and detailed review
+Chemistry, and Biology. It includes 3 full Mock Exams, Feedback sessions, Hints & Tips session, timed practice, and detailed review
 sessions.
 We help students master content, develop smart revision techniques, and stay confident
 under exam pressure. Tutors provide marked scripts with actionable feedback.`,
     includes: [
-      "2 Mock Exams included with grading, feedback & improvement tips",
+      "3 Mock Exams included with grading, feedback & improvement tips",
       "Intensive revision of critical topics",
       "Timed paper practice",
       "Practice with long-answer and problem-solving questions",
