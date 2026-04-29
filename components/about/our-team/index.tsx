@@ -28,14 +28,7 @@ const teamMembers: TeamMember[] = [
     color: "bg-pink-200",
     icon: "🚀",
   },
-  {
-    name: "Dr. M Ahmmad",
-    title: "PROFESSIONAL ENGINEER",
-    description: "15 YEARS EXPERINCE IN ENGINEERING PRACTICE & TEACHING",
-    imageUrl: "/images/about/team2.jpg", // Replace with actual image
-    color: "bg-green-200",
-    icon: "🏗️",
-  },
+
   {
     name: "Shabbir Rahman",
     title: "CHARTERED ACCOUNTANT",
@@ -211,7 +204,7 @@ const OurTeam: React.FC = () => {
           </h2>
           <p className="text-xl max-w-3xl  mx-auto text-gray-600 font-['Comic_Sans_MS',cursive,sans-serif]">
             Introducing our exceptional Management Team – a dynamic group of
-            five accomplished professionals. Their diverse expertise and
+            four accomplished professionals. Their diverse expertise and
             dedication drive the success of our innovative educational
             initiatives.
           </p>
