@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -226,23 +226,6 @@ const FloatingElements = () => {
 };
 
 const Hero = () => {
-  const [text, setText] = useState("");
-  const fullText =
-    "Join thousands of happy learners on exciting adventures! Learn at your own pace with fun activities that make learning feel like playtime.";
-
-  useEffect(() => {
-    let currentIndex = 0;
-    const typingInterval = setInterval(() => {
-      if (currentIndex < fullText.length) {
-        setText(fullText.substring(0, currentIndex + 1));
-        currentIndex++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 50); // Speed of typing
-
-    return () => clearInterval(typingInterval);
-  }, []);
 
   return (
     <div className="relative min-h-[670px] pt-20 md:pt-30 pb-4 md:pb-20 overflow-hidden bg-transparent">
@@ -372,18 +355,80 @@ const Hero = () => {
           </motion.h1>
 
           <motion.p
-            className="text-lg text-gray-600 max-w-xl leading-relaxed rounded-xl bg-blue-50 p-4 border-2 border-dashed border-blue-200 min-h-[123px] overflow-y-auto"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
+            className="text-lg text-gray-600 max-w-xl leading-relaxed rounded-xl bg-blue-50 p-4 border-2 border-dashed border-blue-200 overflow-y-auto"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {text}
+            Join thousands of happy learners on exciting adventures! Learn at your own pace with fun activities that make learning feel like playtime.
             <motion.span
-              className="inline-block w-1 h-5 bg-gray-500 ml-1"
+              className="inline-block w-1 h-5 bg-gray-500 ml-1 align-middle"
               animate={{ opacity: [0, 1] }}
               transition={{ repeat: Infinity, duration: 0.7 }}
             />
           </motion.p>
 
+          {/* Curriculum Window Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="w-full max-w-xl z-10"
+          >
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
+
+              {/* macOS-style title bar */}
+              <div className="bg-gradient-to-r from-indigo-600 to-blue-500 px-5 py-3 flex items-center justify-between">
+                {/* Levels info as title */}
+                <span className="text-white text-xs font-semibold tracking-wide">
+                  Primary P3–P7 · Secondary S1–S3 · National 5 · Highers &amp; Adv. Highers
+                </span>
+                {/* Traffic light dots — right side */}
+                <div className="flex gap-1.5 shrink-0">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-300" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                </div>
+              </div>
+
+              {/* Subjects checklist — clean, no sections */}
+              <div className="bg-white p-3 grid grid-cols-2 gap-1">
+                {[
+                  { label: "Maths",         color: "#3B82F6" },
+                  { label: "English",       color: "#EC4899" },
+                  { label: "Science",       color: "#22C55E" },
+                  { label: "App. of Maths", color: "#F97316" },
+                  { label: "Physics",       color: "#8B5CF6" },
+                  { label: "Chemistry",     color: "#14B8A6" },
+                  { label: "Biology",       color: "#EAB308" },
+                  { label: "Computing",     color: "#6B7280" },
+                ].map(({ label, color }, i) => (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, x: i % 2 === 0 ? -8 : 8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.65 + i * 0.06 }}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl cursor-default transition-all duration-200"
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = color + "15")}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
+                  >
+                    <div
+                      className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center shadow-sm"
+                      style={{ backgroundColor: color }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.5 7L5.5 10L11.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold text-gray-700">{label}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+            </div>
+          </motion.div>
+
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <a
               href="/courses/all-courses"
@@ -416,74 +461,7 @@ const Hero = () => {
             </span>
           </div> */}
 
-          {/* USP Banner - New Addition */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="w-full rounded-xl z-10 max-w-xl p-4 relative overflow-hidden"
-          >
-            <div
-              className="bg-white text-gray-800 font-bold py-5 px-6 rounded-lg relative transform hover:scale-[1.02] transition-transform duration-300"
-              style={{
-                perspective: "1000px",
-                transform: "rotate(-1deg)",
-                boxShadow:
-                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                backgroundImage:
-                  "linear-gradient(0deg, rgba(254, 243, 199, 0.7) 2px, transparent 2px)",
-                backgroundSize: "100% 20px",
-              }}
-            >
-              {/* Paper clip */}
-              <div className="absolute -top-3 left-8 w-8 h-14 z-20">
-                <div className="w-full h-6 bg-gray-400 rounded-t-full"></div>
-                <div className="w-full h-8 border-l-2 border-r-2 border-gray-400"></div>
-              </div>
 
-              {/* Torn edge effect at top */}
-              <div
-                className="absolute top-0 left-0 right-0 h-2 bg-white z-10"
-                style={{
-                  clipPath:
-                    "polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%)",
-                }}
-              ></div>
-
-              {/* Note content */}
-              <h3 className="text-lg sm:text-2xl leading-tight tracking-tight relative z-10 font-handwriting mt-3">
-                <span className="text-indigo-700 font-bold border-b-2 border-amber-300">
-                  Aberdeen Based Tuition Center for Primary, Secondary, Highers
-                  & Advanced Highers.
-                </span>
-              </h3>
-
-              <div className="flex justify-center gap-2 mt-3">
-                {["⭐", "⭐", "⭐"].map((icon, i) => (
-                  <motion.span
-                    key={i}
-                    className="text-amber-500 inline-block"
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 1.5,
-                      delay: i * 0.3,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    {icon}
-                  </motion.span>
-                ))}
-              </div>
-
-              {/* Tape pieces */}
-              <div className="absolute -top-1 -right-1 w-16 h-6 bg-gray-200 opacity-70 rotate-12"></div>
-              <div className="absolute -bottom-1 -left-1 w-16 h-6 bg-gray-200 opacity-70 -rotate-12"></div>
-
-              {/* Coffee stain */}
-              <div className="absolute bottom-8 right-6 w-10 h-10 rounded-full bg-amber-100 opacity-40"></div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </div>

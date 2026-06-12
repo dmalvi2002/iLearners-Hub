@@ -124,13 +124,13 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="flex flex-col gap-4"
           >
-            <div className="mb-3">
+            <div className="mb-4">
               <Image
                 src="/images/logo.png"
                 alt="iLearner's Hub Logo"
-                width={150}
-                height={50}
-                className="object-contain"
+                width={280}
+                height={90}
+                className="w-48 sm:w-56 md:w-64 lg:w-[280px] h-auto object-contain"
               />
             </div>
             <p className="text-gray-600 mb-4">
@@ -236,17 +236,25 @@ const Footer = () => {
             </h3>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <FaMapMarkerAlt className="text-indigo-500 mt-1" />
-                <p className="text-gray-600">
-                  1-3 Albyn Terrace, Aberdeen AB10 1YP, UK
-                </p>
+                <FaMapMarkerAlt className="text-indigo-500 mt-1 shrink-0" />
+                <div>
+                  <span className="block font-semibold text-indigo-700 text-sm">City Centre:</span>
+                  <span className="text-gray-600 block leading-tight">1-3 Albyn Terrace, Aberdeen AB10 1YP</span>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <FaPhone className="text-indigo-500" />
+              <div className="flex items-start gap-3">
+                <FaMapMarkerAlt className="text-indigo-500 mt-1 shrink-0" />
+                <div>
+                  <span className="block font-semibold text-orange-600 text-sm">Bridge of Don:</span>
+                  <span className="text-gray-600 block leading-tight">Broadfold Business Centre, AB23 8EE</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 pt-2">
+                <FaPhone className="text-indigo-500 shrink-0" />
                 <p className="text-gray-600">+44 7448 231096</p>
               </div>
               <div className="flex items-center gap-3">
-                <FaEnvelope className="text-indigo-500" />
+                <FaEnvelope className="text-indigo-500 shrink-0" />
                 <p className="text-gray-600">info@ilearnershub.co.uk</p>
               </div>
             </div>

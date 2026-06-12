@@ -1,3 +1,4 @@
+import BranchSection from "@/components/main/branches";
 import CourseCategories from "@/components/main/courses";
 import CTA from "@/components/main/cta";
 import Featured from "@/components/main/feature";
@@ -21,6 +22,7 @@ export default function Home() {
   return (
     <main className="bg-gradient-to-b from-blue-50/50 via-blue-50 to-pink-100/50">
       <Hero />
+      <BranchSection />
       <Testimonials />
       <PrimarySection />
       <ClientReview />
