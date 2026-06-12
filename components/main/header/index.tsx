@@ -332,9 +332,9 @@ const Header = () => {
                     : "/ilearners-logo-white.svg"
                 }
                 alt="iLearner's Hub Logo"
-                width={120}
-                height={40}
-                className={`transition-all duration-300 ease-in-out ${
+                width={160}
+                height={55}
+                className={`w-[140px] md:w-[170px] h-auto transition-all duration-300 ease-in-out ${
                   isScrolled ? "scale-100" : "scale-105"
                 }`}
                 priority

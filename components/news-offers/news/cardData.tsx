@@ -24,6 +24,22 @@ export interface CardDataType {
 }
 
 export const cardData: CardDataType[] = [
+  // Branch card: Bridge of Don
+  {
+    id: "branch-1",
+    logo: "🏢",
+    title: "We're Expanding! New Branch in Bridge of Don",
+    subtitle: "GRAND OPENING",
+    description:
+      "We are absolutely thrilled to announce the opening of our brand new iLearner's Hub branch in Bridge of Don!\n\nDue to incredible demand from parents and students across Aberdeen, we're bringing our engaging, expert-led tutoring closer to you. Located at the Broadfold Business Centre, this modern, fully-equipped learning space offers the same supportive environment, qualified tutors, and tailored curriculum you've come to expect from us.\n\nEnrolment for the new branch is officially open for all primary and secondary subjects!",
+    image: "https://live.staticflickr.com/982/28459017558_20a54149ab_b.jpg",
+    actionButton: {
+      text: "Get Directions",
+      url: "https://maps.google.com/?q=Broadfold+Business+Centre,+Bridge+of+Don,+AB23+8EE",
+    },
+    category: "branch",
+    location: "Broadfold Business Centre, AB23 8EE",
+  },
   // Event card: Eid on the Terrace
   {
     id: "1",
