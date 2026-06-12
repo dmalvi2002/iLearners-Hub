@@ -24,6 +24,19 @@ export interface CardDataType {
 }
 
 export const cardData: CardDataType[] = [
+  // Summer Programme
+  {
+    id: "summer-1",
+    title: "BUILD SKILLS. LEARN. PLAY.",
+    subtitle: "STRUCTURED SUMMER PROGRAMME",
+    description: "A balanced programme designed to improve focus, creativity, and confidence.",
+    image: "https://res.cloudinary.com/dvvcwzp4n/image/upload/v1781236336/WhatsApp_Image_2026-06-12_at_3.57.04_AM_hhbhxk.jpg",
+    actionButton: {
+      text: "Explore The Programme",
+      url: "/register",
+    },
+    category: "summer",
+  },
   // Branch card: Bridge of Don
   {
     id: "branch-1",

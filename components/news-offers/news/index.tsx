@@ -4,6 +4,7 @@ import EventCard from "./eventsCard";
 import OfferCard from "./offersCard";
 import NewsCard from "./newsCard";
 import BranchCard from "./branchCard";
+import SummerProgrammeCard from "./summerProgrammeCard";
 
 // Function to render the appropriate card based on category
 const renderCard = (card: CardDataType) => {
@@ -16,6 +17,8 @@ const renderCard = (card: CardDataType) => {
       return <NewsCard key={card.id} card={card} />;
     case "branch":
       return <BranchCard key={card.id} card={card} />;
+    case "summer":
+      return <SummerProgrammeCard key={card.id} card={card} />;
     default:
       return null;
   }
