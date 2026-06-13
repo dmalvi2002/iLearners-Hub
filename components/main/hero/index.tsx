@@ -354,78 +354,62 @@ const Hero = () => {
             <div className="absolute top-12 -left-6 w-16 h-16 bg-gradient-radial from-orange-300 to-orange-200 rounded-full opacity-60 blur-xl -z-10"></div>
           </motion.h1>
 
-          <motion.p
-            className="text-lg text-gray-600 max-w-xl leading-relaxed rounded-xl bg-blue-50 p-4 border-2 border-dashed border-blue-200 overflow-y-auto"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Join thousands of happy learners on exciting adventures! Learn at your own pace with fun activities that make learning feel like playtime.
-            <motion.span
-              className="inline-block w-1 h-5 bg-gray-500 ml-1 align-middle"
-              animate={{ opacity: [0, 1] }}
-              transition={{ repeat: Infinity, duration: 0.7 }}
-            />
-          </motion.p>
-
-          {/* Curriculum Window Card */}
+          {/* Creative Subjects Cluster */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="w-full max-w-xl z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="w-full max-w-xl z-10 py-4"
           >
-            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-
-              {/* macOS-style title bar */}
-              <div className="bg-gradient-to-r from-indigo-600 to-blue-500 px-5 py-3 flex items-center justify-between">
-                {/* Levels info as title */}
-                <span className="text-white text-xs font-semibold tracking-wide">
-                  Primary P3–P7 · Secondary S1–S3 · National 5 · Highers &amp; Adv. Highers
-                </span>
-                {/* Traffic light dots — right side */}
-                <div className="flex gap-1.5 shrink-0">
-                  <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-300" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                </div>
-              </div>
-
-              {/* Subjects checklist — clean, no sections */}
-              <div className="bg-white p-3 grid grid-cols-2 gap-1">
-                {[
-                  { label: "Maths",         color: "#3B82F6" },
-                  { label: "English",       color: "#EC4899" },
-                  { label: "Science",       color: "#22C55E" },
-                  { label: "App. of Maths", color: "#F97316" },
-                  { label: "Physics",       color: "#8B5CF6" },
-                  { label: "Chemistry",     color: "#14B8A6" },
-                  { label: "Biology",       color: "#EAB308" },
-                  { label: "Computing",     color: "#6B7280" },
-                ].map(({ label, color }, i) => (
-                  <motion.div
-                    key={label}
-                    initial={{ opacity: 0, x: i % 2 === 0 ? -8 : 8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.65 + i * 0.06 }}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl cursor-default transition-all duration-200"
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = color + "15")}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
-                  >
-                    <div
-                      className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center shadow-sm"
-                      style={{ backgroundColor: color }}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                        <path d="M2.5 7L5.5 10L11.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <span className="text-xs sm:text-sm font-semibold text-gray-700">{label}</span>
-                  </motion.div>
-                ))}
-              </div>
-
+            <div className="flex flex-wrap gap-2.5 sm:gap-3">
+              {[
+                { label: "🧮 Maths", color: "bg-blue-100 text-blue-700 border-blue-300" },
+                { label: "✏️ English", color: "bg-pink-100 text-pink-700 border-pink-300" },
+                { label: "🔬 Science", color: "bg-green-100 text-green-700 border-green-300" },
+                { label: "💻 Computing", color: "bg-indigo-100 text-indigo-700 border-indigo-300" },
+                { label: "⚛️ Physics", color: "bg-orange-100 text-orange-700 border-orange-300" },
+                { label: "🧪 Chemistry", color: "bg-teal-100 text-teal-700 border-teal-300" },
+                { label: "🧬 Biology", color: "bg-yellow-100 text-yellow-700 border-yellow-400" },
+                { label: "📐 App. Maths", color: "bg-purple-100 text-purple-700 border-purple-300" },
+              ].map((subject, idx) => (
+                <motion.div
+                  key={subject.label}
+                  initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.3 + idx * 0.08,
+                    type: "spring",
+                    stiffness: 120,
+                  }}
+                  whileHover={{ 
+                    scale: 1.08, 
+                    rotate: idx % 2 === 0 ? 3 : -3,
+                    transition: { duration: 0.2 }
+                  }}
+                  className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-2xl border-2 font-bold text-sm sm:text-base cursor-default shadow-[0_4px_0_0_rgba(0,0,0,0.05)] hover:shadow-[0_6px_0_0_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all ${subject.color}`}
+                >
+                  {subject.label}
+                </motion.div>
+              ))}
             </div>
+            
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.2, duration: 0.6, type: "spring" }}
+              className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white/80 backdrop-blur-md p-4 sm:p-4 rounded-2xl border-2 border-white shadow-lg w-fit transform -rotate-1 hover:rotate-0 transition-transform"
+            >
+              <div className="flex flex-wrap gap-2">
+                <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-br from-pink-400 to-pink-500 border-2 border-white flex items-center justify-center text-white font-black text-xs sm:text-sm shadow-md transform -rotate-3 hover:rotate-0 transition-transform cursor-default">P3-P7</div>
+                <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-br from-purple-400 to-purple-500 border-2 border-white flex items-center justify-center text-white font-black text-xs sm:text-sm shadow-md hover:-translate-y-1 transition-transform cursor-default">S1-S3</div>
+                <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 border-2 border-white flex items-center justify-center text-white font-black text-xs sm:text-sm shadow-md transform rotate-3 hover:rotate-0 transition-transform cursor-default">N5+</div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs sm:text-sm font-bold text-gray-500 uppercase tracking-wider">Catering to all levels</span>
+                <span className="text-sm sm:text-base font-black text-indigo-900 leading-tight">Primary to Adv. Highers</span>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* CTA Buttons */}
