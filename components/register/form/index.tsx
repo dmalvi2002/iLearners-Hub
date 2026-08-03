@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import {
   FaChild,
   FaUser,
@@ -36,15 +35,8 @@ const RegistrationForm = () => {
   const [availableSubjects, setAvailableSubjects] = useState<string[]>([]);
   const [submitError, setSubmitError] = useState<string>("");
 
-  // EmailJS configuration
-  const EMAILJS_SERVICE_ID = "service_ovcbz5c";
-  const EMAILJS_TEMPLATE_ID = "template_0635406";
-  const EMAILJS_PUBLIC_KEY = "EuPOodosn6vBQJ3kx";
-
-  // Initialize EmailJS
-  useEffect(() => {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }, []);
+  // Google Script Web App URL from .env.local
+  const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || "";
 
   const {
     register,
@@ -123,17 +115,22 @@ const RegistrationForm = () => {
         message: data.message || "No additional message provided",
       };
 
-      console.log("Sending email with payload:", emailPayload);
+      console.log("Sending data to Google Sheets:", emailPayload);
 
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        emailPayload,
-        EMAILJS_PUBLIC_KEY
-      );
-      if (result.status === 200) {
-        console.log("Email sent successfully:", result);
+      if (!GOOGLE_SCRIPT_URL) {
+        throw new Error("Google Script URL is missing in environment variables.");
+      }
+
+      // Send data to Google Apps Script
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(emailPayload),
+      });
+
+      const result = await response.json();
+
+      if (result.result === "success") {
+        console.log("Form submitted successfully:", result);
         setIsSuccess(true);
         reset();
 
@@ -152,13 +149,13 @@ const RegistrationForm = () => {
 
         setTimeout(() => setIsSuccess(false), 5000);
       } else {
-        throw new Error(`EmailJS error: ${result.text}`);
+        throw new Error(`${result.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
       setSubmitError(
         error instanceof Error
-          ? `Failed to send email: ${error.message}`
+          ? `Failed to submit registration: ${error.message}`
           : "An unexpected error occurred. Please try again."
       );
     } finally {
@@ -570,7 +567,7 @@ const RegistrationForm = () => {
                   whileTap={{ scale: 0.95 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 inline-block py-3 rounded-full text-white font-medium shadow-lg hover:shadow-xl border-b-4 active:border-b-0 active:border-t-0 active:shadow-inner active:translate-y-1 hover:-translate-y-1 transform transition-all duration-200
+                  className="cursor-pointer disabled:cursor-not-allowed px-8 inline-block py-3 rounded-full text-white font-medium shadow-lg hover:shadow-xl border-b-4 active:border-b-0 active:border-t-0 active:shadow-inner active:translate-y-1 hover:-translate-y-1 transform transition-all duration-200
                   bg-gradient-to-r from-indigo-500 to-purple-600 border-indigo-700 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                 >
                   {isSubmitting ? (
