@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import {
@@ -35,8 +36,8 @@ const RegistrationForm = () => {
   const [availableSubjects, setAvailableSubjects] = useState<string[]>([]);
   const [submitError, setSubmitError] = useState<string>("");
 
-  // Google Script Web App URL from .env.local
-  const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || "";
+  const submissionId = useRef("");
+  const honeypot = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -80,79 +81,35 @@ const RegistrationForm = () => {
     // Reset subjects when level changes
     setValue("subjects", []);
     setValue("homeworkClubOption", "");
+    setValue("levelDetail", "");
   }, [watchLevel, setValue]);
   const onSubmit = async (data: FormData) => {
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitError("");
 
     try {
-      // Format the current time
-      const currentTime = new Date().toLocaleString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/London",
-      }); // Prepare the email payload according to the template structure
-      const emailPayload = {
-        time: currentTime,
-        student_name: data.studentName,
-        name_of_institution: data.institutionName,
-        study_year: data.studyYear,
-        parent_name: data.parentName,
-        address: data.address,
-        post_code: data.postalCode,
-        number: data.phone,
-        email: data.email,
-        level: data.level,
-        primary_level: data.levelDetail || "N/A",
-        subjects:
-          data.subjects && data.subjects.length > 0
-            ? data.subjects.join(", ")
-            : "N/A",
-        homework_club_options: data.homeworkClubOption || "N/A",
-        message: data.message || "No additional message provided",
-      };
+      if (!submissionId.current) submissionId.current = crypto.randomUUID();
+      await submitEnquiry({ ...data, type: "registration" }, submissionId.current, honeypot.current?.value || "");
+      submissionId.current = "";
+      setIsSuccess(true);
+      reset();
 
-      console.log("Sending data to Google Sheets:", emailPayload);
+      // Smooth scroll to success message container after a short delay
+      setTimeout(() => {
+        const successContainer = document.getElementById(
+          "success-message-container"
+        );
+        if (successContainer) {
+          successContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }, 300); // Small delay to ensure the success message has rendered
 
-      if (!GOOGLE_SCRIPT_URL) {
-        throw new Error("Google Script URL is missing in environment variables.");
-      }
-
-      // Send data to Google Apps Script
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(emailPayload),
-      });
-
-      const result = await response.json();
-
-      if (result.result === "success") {
-        console.log("Form submitted successfully:", result);
-        setIsSuccess(true);
-        reset();
-
-        // Smooth scroll to success message container after a short delay
-        setTimeout(() => {
-          const successContainer = document.getElementById(
-            "success-message-container"
-          );
-          if (successContainer) {
-            successContainer.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }
-        }, 300); // Small delay to ensure the success message has rendered
-
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        throw new Error(`${result.error || "Unknown error"}`);
-      }
+      setTimeout(() => setIsSuccess(false), 5000);
     } catch (error) {
-      console.error("Error submitting form:", error);
       setSubmitError(
         error instanceof Error
           ? `Failed to submit registration: ${error.message}`
@@ -205,6 +162,7 @@ const RegistrationForm = () => {
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-6">
+              <div className="hidden" aria-hidden="true"><label>Leave this empty<input ref={honeypot} name="website" tabIndex={-1} autoComplete="off" /></label></div>
               {/* Error message display */}
               {submitError && (
                 <motion.div

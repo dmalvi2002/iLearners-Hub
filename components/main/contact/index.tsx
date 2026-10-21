@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 
 // Separate component for floating SVG elements
 const FloatingElements = () => {
@@ -187,10 +187,9 @@ const ContactSection: React.FC = () => {
     return emailRegex.test(email);
   };
 
-  // EmailJS configuration
-  const EMAILJS_SERVICE_ID = "service_ovcbz5c";
-  const EMAILJS_TEMPLATE_ID = "template_bm06l9f";
-  const EMAILJS_PUBLIC_KEY = "EuPOodosn6vBQJ3kx";
+  const submissionId = useRef("");
+  const honeypot = useRef<HTMLInputElement>(null);
+  const [submitError, setSubmitError] = useState("");
 
   // Reset status back to idle after timeout
   useEffect(() => {
@@ -221,7 +220,9 @@ const ContactSection: React.FC = () => {
     }
   };
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
+    if (isSubmitting) return;
+    setSubmitError("");
 
     // Clear previous errors
     setEmailError("");
@@ -252,34 +253,17 @@ const ContactSection: React.FC = () => {
     setSubmitStatus("idle");
 
     try {
-      // Initialize EmailJS with your public key
-      emailjs.init(EMAILJS_PUBLIC_KEY);
-
-      // Prepare template parameters with only name and email
-      const templateParams = {
-        name: formData.name,
-        email: formData.email,
-      };
-
-      // Send email using EmailJS
-      const response = await emailjs.send(
-        EMAILJS_SERVICE_ID, // service ID
-        EMAILJS_TEMPLATE_ID, // template ID
-        templateParams
-      );
-
-      if (response.status === 200) {
-        setSubmitStatus("success");
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-        });
-      } else {
-        setSubmitStatus("error");
-      }
+      if (!submissionId.current) submissionId.current = crypto.randomUUID();
+      await submitEnquiry({ ...formData, type: "subscription" }, submissionId.current, honeypot.current?.value || "");
+      submissionId.current = "";
+      setSubmitStatus("success");
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+      });
     } catch (error) {
-      console.error("Error sending email:", error);
+      setSubmitError(error instanceof Error ? error.message : "Please try again shortly.");
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -326,6 +310,7 @@ const ContactSection: React.FC = () => {
               {" "}
               <div className="w-full bg-gradient-to-r from-gray-800 to-teal-500 p-3 sm:p-4 md:p-6 rounded-3xl  shadow-[0_8px_16px_rgba(0,0,0,0.3)] transform hover:translate-y-[-2px] transition-all duration-300">
                 <form onSubmit={handleSubmit} noValidate>
+                  <div className="hidden" aria-hidden="true"><label>Leave this empty<input ref={honeypot} name="website" tabIndex={-1} autoComplete="off" /></label></div>
                   <div className="mb-3 sm:mb-4">
                     <label className="block text-white text-sm sm:text-base font-medium mb-1">
                       Your Name
@@ -425,6 +410,7 @@ const ContactSection: React.FC = () => {
                       ❌{" "}
                       {emailError ||
                         nameError ||
+                        submitError ||
                         "Something went wrong. Please try again."}
                     </div>
                   )}
